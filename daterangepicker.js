@@ -73,7 +73,7 @@
         //allow setting options with data attributes
         //data-api options will be overwritten with custom javascript options
         options = $.extend(this.element.data(), options);
-        
+
         this.setOptions(options, cb);
 
         //event listeners
@@ -547,7 +547,7 @@
 
             this.updateCalendars();
         },
-        
+
         keydown: function (e) {
             //hide on tab or enter
         	if ((e.keyCode === 9) || (e.keyCode === 13)) {
@@ -572,7 +572,7 @@
                 };
                 parentRightEdge = this.parentEl[0].clientWidth + this.parentEl.offset().left;
             }
-            
+
             if (this.drops == 'up')
             	containerTop = this.element.offset().top - this.container.outerHeight() - parentOffset.top;
             else
@@ -777,6 +777,10 @@
                 this.hideCalendars();
                 this.hide();
                 this.element.trigger('apply.daterangepicker', this);
+
+                if (this.startDate.isSame(moment().startOf('day')) && this.endDate.isSame(moment().endOf('day'))) {
+                    this.notify();
+                }
 
                 if (this.autoApply) {
                     this.notify();
@@ -1014,8 +1018,8 @@
             }
             if (customRange) {
                 this.chosenLabel = this.container.find('.ranges li:last').addClass('active').html();
-                this.showCalendars();
             }
+            this.showCalendars();
         },
 
         buildCalendar: function (month, year, hour, minute, second, side) {
@@ -1160,7 +1164,7 @@
                 for (var col = 0; col < 7; col++) {
                     var cname = 'available ';
                     cname += (calendar[row][col].month() == calendar[1][1].month()) ? '' : 'off';
-                    
+
                     if(calendar[row][col].isSame(new Date(), "day") ) {
                         cname += ' today ';
                     }
